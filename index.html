@@ -1,0 +1,2019 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>منصة جود لايف للمهارات الشبابية | Good Life Skills Platform</title>
+        <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;800&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-blue: #0D6EFD;
+            --energy-orange: #FF6B35;
+            --success-green: #00E676;
+            --dark-charcoal: #212529;
+            --soft-offwhite: #F8F9FA;
+            --white: #FFFFFF;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Cairo', sans-serif;
+        }
+
+        body {
+            color: var(--dark-charcoal);
+            overflow-x: hidden;
+            position: relative;
+            background-color: #0d1117;
+        }
+        .bg-video-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -2;
+            overflow: hidden;
+        }
+
+        .bg-video-container video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: brightness(0.65) contrast(1.05);
+        }
+
+        .bg-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(248, 249, 250, 0.78);
+            backdrop-filter: blur(4px);
+            z-index: -1;
+        }
+
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.88);
+            backdrop-filter: blur(14px);
+            border-bottom: 2px solid rgba(233, 236, 239, 0.8);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+        }
+
+        .progress-container {
+            width: 100%;
+            height: 6px;
+            background-color: #E0E0E0;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 25%;
+            background: linear-gradient(90deg, var(--energy-orange), var(--success-green), var(--primary-blue));
+            background-size: 200% 100%;
+            animation: moveGradient 2s linear infinite;
+            transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        @keyframes moveGradient {
+            0% { background-position: 0% 0%; }
+            100% { background-position: 100% 0%; }
+        }
+
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 12px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+        }
+
+        .brand img {
+            height: 48px;
+            object-fit: contain;
+            transition: transform 0.4s ease;
+        }
+
+        .brand:hover img {
+            transform: rotate(12deg) scale(1.1);
+        }
+
+        .brand span {
+            font-weight: 800;
+            font-size: 1.2rem;
+            color: var(--primary-blue);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 12px;
+            list-style: none;
+        }
+
+        .nav-links button {
+            background: none;
+            border: none;
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--dark-charcoal);
+            cursor: pointer;
+            padding: 8px 16px;
+            border-radius: 12px;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+        }
+
+        .nav-links button.active {
+            background-color: var(--primary-blue);
+            color: var(--white);
+            box-shadow: 0 4px 15px rgba(13, 110, 253, 0.35);
+            transform: translateY(-2px);
+        }
+
+        .nav-links button:hover:not(.locked):not(.active) {
+            background-color: rgba(13, 110, 253, 0.1);
+            color: var(--primary-blue);
+            transform: translateY(-2px);
+        }
+
+        .nav-links button.locked {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        .page {
+            display: none;
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .page.active {
+            display: block;
+            animation: slideUpFade 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes slideUpFade {
+            from { opacity: 0; transform: translateY(30px) scale(0.98); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        #auth-card {
+            max-width: 480px;
+            margin: 50px auto;
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(12px);
+            padding: 40px;
+            border-radius: 24px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.12);
+            text-align: center;
+            border: 2px solid rgba(13, 110, 253, 0.15);
+            animation: floatCard 4s ease-in-out infinite;
+        }
+
+        @keyframes floatCard {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        #auth-card img {
+            height: 95px;
+            margin-bottom: 20px;
+            animation: pulseGlow 2.5s infinite;
+        }
+
+        @keyframes pulseGlow {
+            0%, 100% { transform: scale(1); filter: drop-shadow(0 0 0px rgba(13, 110, 253, 0)); }
+            50% { transform: scale(1.08); filter: drop-shadow(0 0 15px rgba(13, 110, 253, 0.4)); }
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            text-align: right;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 14px;
+            border: 2px solid #E2E8F0;
+            border-radius: 12px;
+            font-size: 0.95rem;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus, .form-group select:focus {
+            border-color: var(--primary-blue);
+            box-shadow: 0 0 0 4px rgba(13, 110, 253, 0.15);
+        }
+
+        .btn-primary {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, var(--energy-orange), #FF8C42);
+            color: var(--white);
+            border: none;
+            border-radius: 14px;
+            font-size: 1.1rem;
+            font-weight: 800;
+            cursor: pointer;
+            box-shadow: 0 6px 20px rgba(255, 107, 53, 0.35);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 10px 25px rgba(255, 107, 53, 0.45);
+        }
+
+        .hero-banner {
+            background: linear-gradient(135deg, rgba(13, 110, 253, 0.9), rgba(30, 86, 49, 0.9), rgba(255, 107, 53, 0.9));
+            background-size: 200% 200%;
+            animation: gradientShift 8s ease infinite;
+            color: var(--white);
+            padding: 45px 35px;
+            border-radius: 28px;
+            margin-bottom: 40px;
+            text-align: center;
+            box-shadow: 0 12px 30px rgba(13, 110, 253, 0.25);
+            backdrop-filter: blur(8px);
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .hero-banner h1 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            margin-bottom: 12px;
+        }
+
+        .posters-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .poster-card {
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .poster-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 18px 35px rgba(0,0,0,0.15);
+        }
+
+        .poster-card img, .poster-card video {
+            width: 100%;
+            height: 320px;
+            object-fit: cover;
+            border-bottom: 4px solid var(--primary-blue);
+        }
+
+        .poster-card-body {
+            padding: 18px;
+            text-align: center;
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        .card-item {
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(10px);
+            padding: 28px;
+            border-radius: 20px;
+            border-right: 6px solid var(--energy-orange);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.06);
+            transition: all 0.3s ease;
+        }
+
+        .card-item:hover {
+            transform: translateY(-5px);
+            border-right-color: var(--success-green);
+            box-shadow: 0 12px 28px rgba(0,0,0,0.12);
+        }
+
+
+.poster-card,
+.card-item {
+    position: relative;
+    overflow: hidden;
+
+    transition:
+        transform 0.45s ease,
+        box-shadow 0.45s ease,
+        border-color 0.45s ease;
+}
+
+
+
+.poster-card:hover {
+    transform: translateY(-12px) scale(1.03);
+
+    border: 2px solid var(--primary-blue);
+
+    box-shadow:
+        0 0 10px rgba(13, 110, 253, 0.5),
+        0 0 25px rgba(13, 110, 253, 0.4),
+        0 0 50px rgba(13, 110, 253, 0.25),
+        0 20px 45px rgba(0, 0, 0, 0.25);
+
+    animation: blueGlow 2s ease-in-out infinite alternate;
+}
+
+
+
+.card-item:hover {
+    transform: translateY(-10px) scale(1.025);
+
+    border-color: var(--energy-orange);
+
+    box-shadow:
+        0 0 10px rgba(255, 107, 53, 0.5),
+        0 0 25px rgba(255, 107, 53, 0.4),
+        0 0 50px rgba(255, 107, 53, 0.25),
+        0 20px 45px rgba(0, 0, 0, 0.25);
+
+    animation: orangeGlow 2s ease-in-out infinite alternate;
+}
+
+
+
+@keyframes blueGlow {
+
+    from {
+        box-shadow:
+            0 0 8px rgba(13, 110, 253, 0.4),
+            0 0 20px rgba(13, 110, 253, 0.25),
+            0 0 35px rgba(13, 110, 253, 0.15);
+    }
+
+    to {
+        box-shadow:
+            0 0 15px rgba(13, 110, 253, 0.8),
+            0 0 35px rgba(13, 110, 253, 0.6),
+            0 0 65px rgba(13, 110, 253, 0.35);
+    }
+}
+
+
+@keyframes orangeGlow {
+
+    from {
+        box-shadow:
+            0 0 8px rgba(255, 107, 53, 0.4),
+            0 0 20px rgba(255, 107, 53, 0.25),
+            0 0 35px rgba(255, 107, 53, 0.15);
+    }
+
+    to {
+        box-shadow:
+            0 0 15px rgba(255, 107, 53, 0.8),
+            0 0 35px rgba(255, 107, 53, 0.6),
+            0 0 65px rgba(255, 107, 53, 0.35);
+    }
+}
+
+
+.poster-card::before,
+.card-item::before {
+
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+    left: -120%;
+
+    width: 80%;
+    height: 100%;
+
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255,255,255,0.35),
+        transparent
+    );
+
+    transform: skewX(-25deg);
+
+    transition: left 0.8s ease;
+
+    pointer-events: none;
+
+    z-index: 5;
+}
+
+
+.poster-card:hover::before,
+.card-item:hover::before {
+
+    left: 140%;
+}
+
+
+.poster-card img,
+.poster-card video {
+
+    transition:
+        transform 0.6s ease,
+        filter 0.6s ease;
+}
+
+
+.poster-card:hover img,
+.poster-card:hover video {
+
+    transform: scale(1.08);
+
+    filter:
+        brightness(1.1)
+        saturate(1.2);
+}
+        .card-item h3 {
+            font-size: 1.3rem;
+            margin-bottom: 12px;
+            color: var(--primary-blue);
+        }
+
+        .card-item p {
+            font-size: 0.95rem;
+            color: #6C757D;
+            margin-bottom: 22px;
+        }
+
+        .btn-modal {
+            padding: 12px 22px;
+            background: linear-gradient(135deg, var(--primary-blue), #0056b3);
+            color: var(--white);
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .dashboard-container {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 25px;
+        }
+
+        @media (max-width: 768px) {
+            .dashboard-container { grid-template-columns: 1fr; }
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(10px);
+            padding: 30px;
+            border-radius: 22px;
+            text-align: center;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.06);
+        }
+
+        .circle-progress {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            background: conic-gradient(var(--success-green) 75%, #E9ECEF 0);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 20px auto;
+            box-shadow: 0 8px 20px rgba(0, 230, 118, 0.2);
+            animation: spinGlow 6s linear infinite;
+        }
+
+        @keyframes spinGlow {
+            0%, 100% { transform: rotate(0deg); }
+            50% { transform: rotate(180deg); }
+        }
+
+        .circle-inner {
+            width: 110px;
+            height: 110px;
+            background: var(--white);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 800;
+            animation: reverseSpin 6s linear infinite;
+        }
+
+        @keyframes reverseSpin {
+            0%, 100% { transform: rotate(0deg); }
+            50% { transform: rotate(-180deg); }
+        }
+
+        .task-list {
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(10px);
+            padding: 30px;
+            border-radius: 22px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.06);
+        }
+
+        .task-item {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 14px 0;
+            border-bottom: 1px solid #E9ECEF;
+            transition: background 0.2s ease;
+        }
+
+        .task-item input[type="checkbox"] {
+            width: 22px;
+            height: 22px;
+            accent-color: var(--success-green);
+            cursor: pointer;
+        }
+
+        .feedback-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+
+        @media (max-width: 850px) {
+            .feedback-container { grid-template-columns: 1fr; }
+        }
+
+        .feedback-form, .live-results-card {
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(10px);
+            padding: 35px;
+            border-radius: 24px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+        }
+
+        .results-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid #F1F5F9;
+        }
+
+        .score-badge {
+            background: linear-gradient(135deg, var(--success-green), #00C853);
+            color: var(--white);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-weight: 800;
+            font-size: 1.1rem;
+        }
+
+        .feedback-feed {
+            max-height: 380px;
+            overflow-y: auto;
+            padding-left: 5px;
+        }
+
+        .feed-item {
+            background: var(--soft-offwhite);
+            padding: 16px;
+            border-radius: 14px;
+            margin-bottom: 15px;
+            border-right: 4px solid var(--primary-blue);
+            animation: fadeIn 0.4s ease;
+        }
+
+        .feed-item-header {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            color: #6C757D;
+            margin-bottom: 6px;
+        }
+
+        .feed-item-author {
+            font-weight: 800;
+            color: var(--dark-charcoal);
+        }
+
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; right: 0; bottom: 0; left: 0;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(6px);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal-content {
+            background: var(--white);
+            padding: 35px;
+            border-radius: 24px;
+            max-width: 500px;
+            width: 100%;
+            position: relative;
+            animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes popIn {
+            from { transform: scale(0.7) translateY(20px); opacity: 0; }
+            to { transform: scale(1) translateY(0); opacity: 1; }
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 18px;
+            left: 22px;
+            font-size: 1.6rem;
+            cursor: pointer;
+            color: #6C757D;
+        }
+    </style>
+</head>
+<body>
+   
+    <div class="bg-video-container">
+        <video autoplay loop muted playsinline>
+            <source src="calendar_event.mp4" type="video/mp4">
+        </video>
+    </div>
+    <div class="bg-overlay"></div>
+
+   
+    <header>
+        <div class="progress-container">
+            <div class="progress-bar" id="topProgress"></div>
+        </div>
+        <nav>
+            <div class="brand">
+                <img src="logo-removebg-preview.png" alt="">
+				
+                <span>جود لايف</span>
+			
+            </div>
+            <ul class="nav-links">
+                <li><button id="btn-auth" class="active" onclick="switchPage('page-auth', 25, event)">الدخول</button></li>
+                <li><button id="btn-home" class="locked" onclick="switchPage('page-home', 50, event)">الرئيسية والمختبر</button></li>
+                <li><button id="btn-progress" class="locked" onclick="switchPage('page-progress', 75, event)">متابعة التقدم</button></li>
+                <li><button id="btn-feedback" class="locked" onclick="switchPage('page-feedback', 100, event)">التغذية الراجعة والنتائج</button></li>
+            </ul>
+        </nav>
+    </header>
+
+   
+    <section id="page-auth" class="page active">
+        <div id="auth-card">
+          <h2 style="margin-bottom: 8px; color: var(--primary-blue);">مرحباً بك في جود لايف</h2>
+          <p style="color: #6C757D; font-size: 0.9rem; margin-bottom: 25px;">قم بملء بياناتك لفتح كامل صفحات المنصة التفاعلية</p>
+           <div class="logo-video">
+
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>لوغو جود لايف</title>
+
+    <style>
+        
+        .logo-video {
+            width: 280px;
+            height: 280px;
+
+            margin: 0 auto 25px;
+
+            overflow: hidden;
+            border-radius: 50%;
+
+          
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background-color: #f8f9fa;
+        }
+
+       
+        .logo-video video {
+            width: 100%;
+            height: 100%;
+
+            display: block;
+
+            
+            object-fit: contain;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="logo-video">
+
+        <video
+            autoplay
+            loop
+            muted
+            playsinline
+            controls
+            poster="logo.jpg"
+        >
+            <source src="Comp 1.mp4" type="video/mp4">
+
+            متصفحك لا يدعم تشغيل الفيديو.
+        </video>
+
+    </div>
+
+</body>
+</html>
+</div>
+			
+			
+            <form onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <label>الاسم أو اللقب الشغوف</label>
+                    <input type="text" id="username" placeholder="مثال: أحمد المبادر" required>
+                </div>
+                <div class="form-group">
+                    <label>الفئة العمرية</label>
+                    <select id="userage" required>
+                        <option value="">اختر فئتك العمرية...</option>
+                        <option value="15-18 سنة">15 - 18 سنة</option>
+                        <option value="19-20 سنة">19 - 20 سنة</option>
+                    </select>
+                </div>
+				
+                <button type="submit" class="btn-primary">انطلق للمنصة ✨ ←</button>
+            </form>
+        </div>
+    </section>
+
+    <section id="page-home" class="page">
+        <div class="hero-banner">
+            <h1 id="welcomeHeader">طور مهاراتك واصنع مستقبلك</h1>
+            <p>اكتشف مدى فائدة تنظيم الوقت والتخطيط الإيجابي لحياتك المهنية</p>
+        </div>
+
+        <h2 style="margin-bottom: 20px; font-weight: 800;">معرض الفيديوهات التوجيهية</h2>
+        <div class="posters-grid">
+            <div class="poster-card">
+                <video autoplay loop muted playsinline controls>
+                    <source src="calendar_event.mp4" type="video/mp4">
+                    <img src="calendar_poster.jpg" alt="تحديد الأهداف والمواعيد علي التقويم">
+                </video>
+                <div class="poster-card-body">
+                    <h4 style="color: var(--energy-orange);">تحديد الأهداف والمواعيد 🎬</h4>
+                    <p style="font-size: 0.85rem; color: #6C757D;">تخطيط الأيام والمواعيد المهمة بالتقويم</p>
+                </div>
+            </div>
+
+            <div class="poster-card">
+                <video autoplay loop muted playsinline controls>
+                    <source src="POSTER.mp4" type="video/mp4">
+                    <img src="POSTER2 بعد التعديل.png" alt="معدل الانجاز وقيمة التقدم المئوي">
+                </video>
+				
+                <div class="poster-card-body">
+                    <h4 style="color: var(--success-green);">&nbsp;قاعدة الخمسة وعشرون دقيقة</h4>
+                    <p style="font-size: 0.85rem; color: #6C757D;">خطوات حركية مستمرة نحو هدفك</p>
+                </div>
+            </div>
+
+            <div class="poster-card">
+                <video autoplay loop muted playsinline controls>
+                    <source src="poster2 (1).mp4" type="video/mp4">
+                    <img src="../../Downloads/poster2.jpg" alt="خطط لمستقبلك">
+                </video>
+                <div class="poster-card-body">
+                    <h4 style="color: var(--primary-blue);">خطط لمستقبلك 🎬</h4>
+                    <p style="font-size: 0.85rem; color: #6C757D;">اكتشف تطور انطلق</p>
+                </div>
+            </div>
+
+            <div class="poster-card">
+                
+              
+                    <img src="poster.ai بعد التعديل.png" alt="كسر التسويف">
+				
+                <div class="poster-card-body">
+                    <h4 style="color: var(--dark-charcoal);">كسر التسويف الآن 🎬</h4>
+                    <p style="font-size: 0.85rem; color: #6C757D;">تقنية البومودورو والأولويات</p>
+                </div>
+            </div>
+        </div>
+<div class="poster-card">
+    <video controls playsinline preload="metadata">
+        <source src="SKILL.mp4" type="video/mp4">
+        متصفحك لا يدعم تشغيل الفيديو.
+    </video>
+    <div class="poster-card-body">
+        <h4 style="color: var(--primary-blue);">TIME MANAGEMENT IS GOOD 🎬</h4>
+        <p style="font-size: 0.85rem; color: #6C757D;">SKILL EDUCATION</p>
+    </div>
+</div>
+        <h2 style="margin-bottom: 20px; font-weight: 800;">بطاقات المهارات والتمارين (Card Grid)</h2>
+        <div class="cards-grid">
+            <div class="card-item">
+                <h3>قاعدة 25 دقيقة (البومودورو)</h3>
+                <p>قسّم أوقات عملك إلى فترات مركزة مدتها 25 دقيقة متبوعة باستراحة قصيرة.</p>
+                <button class="btn-modal" onclick="openModal('modal-1')">عرض التمرين التفاعلي ⚡</button>
+            </div>
+            <div class="card-item">
+                <h3>ترتيب الأولويات الثلاث</h3>
+                <p>حدد أهم 3 مهام رئيسية يجب إنهاؤها يومياً قبل الانشغال بالثانويات.</p>
+                <button class="btn-modal" onclick="openModal('modal-2')">تطوير المهارة 🎯</button>
+            </div>
+        </div>
+<section class="skills-section" id="time-management">
+
+    <div class="section-heading">
+        <span class="section-badge">🧠 مهارات عملية</span>
+        <h2>تعلم إدارة وقتك بطريقة أذكى</h2>
+        <p>
+            تعلّم كيف تخطط ليومك وتحدد أولوياتك وتتخلص من المشتتات
+            من خلال خطوات بسيطة يمكنك تطبيقها مباشرة.
+        </p>
+    </div>
+
+    <div class="cards-grid">
+        <article class="skill-card">
+            <div class="skill-card-top">
+                <div class="skill-icon">⏱️</div>
+                <span class="skill-number">01</span>
+            </div>
+
+            <h3>قاعدة الـ 25 دقيقة</h3>
+
+            <p>
+                ركّز على مهمة واحدة فقط لمدة 25 دقيقة دون تشتيت.
+                بعد انتهاء الوقت خذ استراحة قصيرة ثم ابدأ جولة جديدة.
+            </p>
+
+            <div class="skill-tip">
+                <strong>💡 جرّبها الآن</strong>
+                <span>
+                    اختر مهمة واحدة ولا تفتح أي شيء آخر أثناء التركيز.
+                </span>
+            </div>
+
+            <button class="skill-button"
+                    onclick="startFocusChallenge()">
+                ابدأ تحدي التركيز →
+            </button>
+        </article>
+
+		<article class="skill-card">
+            <div class="skill-card-top">
+                <div class="skill-icon">🎯</div>
+                <span class="skill-number">02</span>
+            </div>
+
+            <h3>قاعدة أهم 3 مهام</h3>
+
+            <p>
+                بدلاً من كتابة قائمة طويلة من المهام،
+                حدد ثلاث مهام أساسية تريد إنجازها اليوم.
+            </p>
+
+            <div class="skill-tip">
+                <strong>💡 لماذا؟</strong>
+                <span>
+                    الأولويات الواضحة تقلل التشتت وتساعدك على معرفة
+                    ما يجب إنجازه أولاً.
+                </span>
+            </div>
+
+            <button class="skill-button"
+                    onclick="showPriorityChallenge()">
+                حدد أولوياتك →
+            </button>
+        </article>
+
+        <article class="skill-card">
+            <div class="skill-card-top">
+                <div class="skill-icon">🚫</div>
+                <span class="skill-number">03</span>
+            </div>
+
+            <h3>تخلص من المشتتات</h3>
+
+            <p>
+                الإشعارات والهاتف وفتح عدة تطبيقات في الوقت نفسه
+                يمكن أن تجعل إنجاز المهمة أصعب.
+            </p>
+
+            <div class="skill-tip">
+                <strong>💡 قاعدة بسيطة</strong>
+                <span>
+                    أغلق الإشعارات وضع هاتفك بعيداً أثناء وقت التركيز.
+                </span>
+            </div>
+
+            <button class="skill-button"
+                    onclick="activateFocusMode()">
+                وضع التركيز 🚀
+            </button>
+        </article>
+
+
+        <article class="skill-card">
+            <div class="skill-card-top">
+                <div class="skill-icon">📅</div>
+                <span class="skill-number">04</span>
+            </div>
+
+            <h3>خطط ليومك</h3>
+
+            <p>
+                التخطيط لا يعني أن تملأ كل دقيقة في يومك.
+                حدد ما تريد إنجازه واترك مساحة للراحة والتغييرات.
+            </p>
+
+            <div class="skill-tip">
+                <strong>💡 ابدأ بـ 3 خطوات</strong>
+                <span>
+                    المهمة → الوقت المتوقع → الموعد المناسب.
+                </span>
+            </div>
+
+            <button class="skill-button"
+                    onclick="openDailyPlanner()">
+                خطط ليومك ✨
+            </button>
+        </article>
+
+
+        <article class="skill-card">
+            <div class="skill-card-top">
+                <div class="skill-icon">🔋</div>
+                <span class="skill-number">05</span>
+            </div>
+
+            <h3>اعرف وقت طاقتك</h3>
+
+            <p>
+                ليست كل ساعات اليوم متساوية. حاول وضع المهام التي
+                تحتاج تركيزاً أكبر في الوقت الذي تكون فيه أكثر نشاطاً.
+            </p>
+
+            <div class="skill-tip">
+                <strong>💡 اسأل نفسك</strong>
+                <span>
+                    متى أشعر أن تركيزي أفضل: صباحاً أم بعد الظهر؟
+                </span>
+            </div>
+
+            <button class="skill-button"
+                    onclick="energyChallenge()">
+                اكتشف وقتك ⚡
+            </button>
+        </article>
+
+        <article class="skill-card">
+            <div class="skill-card-top">
+                <div class="skill-icon">🏆</div>
+                <span class="skill-number">06</span>
+            </div>
+
+            <h3>احتفل بإنجازك</h3>
+
+            <p>
+                متابعة تقدمك تساعدك على رؤية ما أنجزته بدلاً من
+                التركيز فقط على الأشياء التي لم تنتهِ منها بعد.
+            </p>
+
+            <div class="skill-tip">
+                <strong>💡 تذكّر</strong>
+                <span>
+                    كل مهمة مكتملة هي خطوة صغيرة نحو هدف أكبر.
+                </span>
+            </div>
+
+            <button class="skill-button"
+                    onclick="completeSkill()">
+                سجل إنجازك 🏆
+            </button>
+        </article>
+
+    </div>
+
+    <section class="time-cta" id="focusChallenge">
+
+        <div class="cta-content">
+
+            <div class="cta-badge">
+                ⚡ تحدي جود لايف
+            </div>
+
+            <h2>
+                هل تستطيع استثمار<br>
+                الـ <span>25 دقيقة القادمة؟</span>
+            </h2>
+
+            <p>
+                اختر مهمة واحدة فقط.
+                ركّز عليها لمدة 25 دقيقة.
+                لا إشعارات، لا تشتيت، فقط أنت وهدفك.
+            </p>
+
+            <div class="cta-stats">
+
+                <div class="cta-stat">
+                    <strong id="xpCounter">0</strong>
+                    <span>XP</span>
+                </div>
+
+                <div class="cta-stat">
+                    <strong id="streakCounter">0</strong>
+                    <span>🔥 أيام متتالية</span>
+                </div>
+
+                <div class="cta-stat">
+                    <strong>25</strong>
+                    <span>دقيقة</span>
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <div class="timer-container">
+
+            <div class="timer-ring">
+
+                <svg viewBox="0 0 220 220">
+
+                    <circle
+                        class="timer-background"
+                        cx="110"
+                        cy="110"
+                        r="95">
+                    </circle>
+
+                    <circle
+                        id="timerProgress"
+                        class="timer-progress"
+                        cx="110"
+                        cy="110"
+                        r="95">
+                    </circle>
+
+                </svg>
+
+                <div class="timer-center">
+
+                    <span id="timerDisplay">
+                        25:00
+                    </span>
+
+                    <small>
+                        وقت التركيز
+                    </small>
+
+                </div>
+
+            </div>
+
+
+            <div class="timer-buttons">
+
+                <button
+                    id="startTimerButton"
+                    class="cta-main-button"
+                    onclick="startFocusTimer()">
+
+                    ▶ ابدأ الآن
+
+                </button>
+
+                <button
+                    class="cta-reset-button"
+                    onclick="resetFocusTimer()">
+
+                    ↻ إعادة
+
+                </button>
+
+            </div>
+
+            <div
+                id="timerMessage"
+                class="timer-message">
+
+                مهمتك التالية تبدأ الآن 🚀
+
+            </div>
+
+        </div>
+
+    </section>
+
+</section>
+
+<style>
+
+.skills-section {
+    padding: 70px 5%;
+}
+
+.section-heading {
+    text-align: center;
+    max-width: 760px;
+    margin: 0 auto 45px;
+}
+
+.section-badge {
+    display: inline-block;
+    padding: 9px 18px;
+    border-radius: 50px;
+    background: rgba(13, 110, 253, 0.1);
+    color: #0D6EFD;
+    font-weight: 800;
+    margin-bottom: 15px;
+}
+
+.section-heading h2 {
+    font-size: 38px;
+    font-weight: 800;
+    margin: 0 0 15px;
+    color: #212529;
+}
+
+.section-heading p {
+    font-size: 17px;
+    line-height: 1.9;
+    color: #555;
+}
+
+
+.cards-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+    max-width: 1250px;
+    margin: auto;
+}
+
+.skill-card {
+    position: relative;
+    background: rgba(255,255,255,0.94);
+    border-radius: 25px;
+    padding: 28px;
+    border: 1px solid rgba(13,110,253,0.08);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.08);
+    overflow: hidden;
+    transition: 0.35s ease;
+}
+
+.skill-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 5px;
+    background: linear-gradient(
+        90deg,
+        #0D6EFD,
+        #FF6B35,
+        #00E676
+    );
+}
+
+.skill-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 25px 55px rgba(13,110,253,0.18);
+}
+
+.skill-card-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 22px;
+}
+
+.skill-icon {
+    width: 58px;
+    height: 58px;
+    border-radius: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    background: #F1F6FF;
+}
+
+.skill-number {
+    font-size: 14px;
+    font-weight: 800;
+    color: #aaa;
+}
+
+.skill-card h3 {
+    font-size: 23px;
+    margin-bottom: 12px;
+    color: #212529;
+}
+
+.skill-card p {
+    color: #555;
+    line-height: 1.9;
+    min-height: 105px;
+}
+
+.skill-tip {
+    background: #F8F9FA;
+    border-radius: 15px;
+    padding: 15px;
+    margin: 20px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.skill-tip strong {
+    color: #212529;
+}
+
+.skill-tip span {
+    color: #666;
+    font-size: 14px;
+    line-height: 1.7;
+}
+
+.skill-button {
+    width: 100%;
+    border: none;
+    border-radius: 14px;
+    padding: 14px 18px;
+    background: #0D6EFD;
+    color: white;
+    font-family: inherit;
+    font-size: 15px;
+    font-weight: 800;
+    cursor: pointer;
+    transition: 0.25s ease;
+}
+
+.skill-button:hover {
+    background: #0959ca;
+    transform: translateY(-2px);
+}
+
+.time-cta {
+    max-width: 1250px;
+    margin: 70px auto 0;
+    padding: 55px;
+    border-radius: 35px;
+
+    background:
+        radial-gradient(
+            circle at 85% 20%,
+            rgba(255,107,53,0.35),
+            transparent 30%
+        ),
+        radial-gradient(
+            circle at 15% 80%,
+            rgba(0,230,118,0.2),
+            transparent 30%
+        ),
+        #101828;
+
+    color: white;
+
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr;
+    gap: 50px;
+    align-items: center;
+
+    overflow: hidden;
+    position: relative;
+}
+
+.time-cta::after {
+    content: "";
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    border: 1px solid rgba(255,255,255,0.08);
+    right: -100px;
+    bottom: -120px;
+}
+
+.cta-badge {
+    display: inline-block;
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.15);
+    padding: 9px 16px;
+    border-radius: 50px;
+    margin-bottom: 20px;
+    font-size: 14px;
+    font-weight: 800;
+}
+
+.cta-content h2 {
+    font-size: 43px;
+    line-height: 1.25;
+    margin: 0 0 20px;
+}
+
+
+.cta-content h2 span {
+    color: #FF6B35;
+}
+
+.cta-content p {
+    color: rgba(255,255,255,0.75);
+    line-height: 1.9;
+    max-width: 570px;
+    font-size: 17px;
+}
+
+
+
+.cta-stats {
+    display: flex;
+    gap: 15px;
+    margin-top: 30px;
+    flex-wrap: wrap;
+}
+
+.cta-stat {
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 16px;
+    padding: 14px 20px;
+    min-width: 105px;
+}
+
+.cta-stat strong {
+    display: block;
+    font-size: 25px;
+    color: white;
+}
+
+.cta-stat span {
+    font-size: 12px;
+    color: rgba(255,255,255,0.6);
+}
+
+.timer-container {
+    text-align: center;
+}
+
+.timer-ring {
+    width: 270px;
+    height: 270px;
+    margin: auto;
+    position: relative;
+}
+
+.timer-ring svg {
+    width: 100%;
+    height: 100%;
+    transform: rotate(-90deg);
+}
+
+.timer-background {
+    fill: none;
+    stroke: rgba(255,255,255,0.1);
+    stroke-width: 9;
+}
+
+.timer-progress {
+    fill: none;
+    stroke: #FF6B35;
+    stroke-width: 9;
+    stroke-linecap: round;
+
+    stroke-dasharray: 597;
+    stroke-dashoffset: 0;
+
+    transition: stroke-dashoffset 1s linear;
+}
+
+.timer-center {
+    position: absolute;
+    inset: 0;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.timer-center span {
+    font-size: 48px;
+    font-weight: 800;
+    letter-spacing: 2px;
+}
+
+.timer-center small {
+    color: rgba(255,255,255,0.55);
+    margin-top: 5px;
+}
+
+.timer-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 25px;
+}
+
+.cta-main-button,
+.cta-reset-button {
+    border: none;
+    border-radius: 14px;
+    padding: 14px 22px;
+    font-family: inherit;
+    font-weight: 800;
+    cursor: pointer;
+    transition: 0.25s ease;
+}
+
+.cta-main-button {
+    background: #FF6B35;
+    color: white;
+}
+
+.cta-main-button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 10px 30px rgba(255,107,53,0.35);
+}
+
+.cta-reset-button {
+    background: rgba(255,255,255,0.1);
+    color: white;
+}
+
+.cta-reset-button:hover {
+    background: rgba(255,255,255,0.18);
+}
+
+.timer-message {
+    margin-top: 18px;
+    color: rgba(255,255,255,0.7);
+    font-size: 14px;
+}
+
+
+
+@media (max-width: 900px) {
+
+    .cards-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .time-cta {
+        grid-template-columns: 1fr;
+        text-align: center;
+        padding: 40px 25px;
+    }
+
+    .cta-content p {
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .cta-stats {
+        justify-content: center;
+    }
+}
+
+@media (max-width: 600px) {
+
+    .cards-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .section-heading h2 {
+        font-size: 30px;
+    }
+
+    .cta-content h2 {
+        font-size: 32px;
+    }
+
+    .timer-ring {
+        width: 230px;
+        height: 230px;
+    }
+
+    .timer-center span {
+        font-size: 40px;
+    }
+}
+
+</style>
+
+
+<script>
+
+let focusSeconds = 25 * 60;
+let focusTimer = null;
+let focusRunning = false;
+
+const totalFocusSeconds = 25 * 60;
+
+
+function updateFocusTimer() {
+
+    const minutes =
+        Math.floor(focusSeconds / 60)
+        .toString()
+        .padStart(2, "0");
+
+    const seconds =
+        (focusSeconds % 60)
+        .toString()
+        .padStart(2, "0");
+
+    document.getElementById("timerDisplay").textContent =
+        `${minutes}:${seconds}`;
+
+
+    const progress =
+        1 - (focusSeconds / totalFocusSeconds);
+
+    const circumference = 597;
+
+    document.getElementById("timerProgress").style.strokeDashoffset =
+        circumference * (1 - progress);
+}
+
+
+
+function startFocusTimer() {
+
+    if (focusRunning) return;
+
+    focusRunning = true;
+
+    const button =
+        document.getElementById("startTimerButton");
+
+    const message =
+        document.getElementById("timerMessage");
+
+    button.textContent = "⏸ جاري التركيز...";
+
+    message.textContent =
+        "أغلق المشتتات وركز على مهمتك الحالية 🔥";
+
+    focusTimer = setInterval(() => {
+
+        if (focusSeconds > 0) {
+
+            focusSeconds--;
+
+            updateFocusTimer();
+
+        } else {
+
+            clearInterval(focusTimer);
+
+            focusRunning = false;
+
+            button.textContent = "✓ اكتمل التحدي";
+
+            message.textContent =
+                "أحسنت! أكملت جلسة التركيز 🎉 +100 XP";
+
+            addXP(100);
+
+            addStreak();
+
+        }
+
+    }, 1000);
+}
+
+
+
+function resetFocusTimer() {
+
+    clearInterval(focusTimer);
+
+    focusSeconds = totalFocusSeconds;
+
+    focusRunning = false;
+
+    document.getElementById("startTimerButton").textContent =
+        "▶ ابدأ الآن";
+
+    document.getElementById("timerMessage").textContent =
+        "مهمتك التالية تبدأ الآن 🚀";
+
+    updateFocusTimer();
+}
+
+
+let xp = 0;
+
+function addXP(amount) {
+
+    xp += amount;
+
+    document.getElementById("xpCounter").textContent =
+        xp;
+
+}
+
+let streak = 0;
+
+function addStreak() {
+
+    streak++;
+
+    document.getElementById("streakCounter").textContent =
+        streak;
+
+}
+
+
+
+function startFocusChallenge() {
+
+    document
+        .getElementById("focusChallenge")
+        .scrollIntoView({
+            behavior: "smooth",
+            block: "center"
+        });
+
+    setTimeout(() => {
+
+        document.getElementById("timerMessage").textContent =
+            "🎯 تم اختيار تحدي التركيز! أنت مستعد.";
+
+    }, 600);
+}
+
+
+function showPriorityChallenge() {
+
+    const tasks = prompt(
+        "اكتب أهم 3 مهام تريد إنجازها اليوم:"
+    );
+
+    if (tasks) {
+
+        addXP(20);
+
+        alert(
+            "🎯 ممتاز! لديك الآن نقطة بداية واضحة ليومك.\n\n" +
+            "تذكّر: ابدأ بالمهمة الأهم أولاً."
+        );
+    }
+}
+
+
+function activateFocusMode() {
+
+    document
+        .getElementById("focusChallenge")
+        .scrollIntoView({
+            behavior: "smooth",
+            block: "center"
+        });
+
+    setTimeout(() => {
+
+        document.getElementById("timerMessage").textContent =
+            "🚀 وضع التركيز جاهز. اضغط ابدأ الآن.";
+
+    }, 500);
+}
+
+
+function openDailyPlanner() {
+
+    alert(
+        "📅 خطط ليومك:\n\n" +
+        "1. حدد أهم مهمة.\n" +
+        "2. حدد الوقت المناسب لها.\n" +
+        "3. اترك وقتاً للراحة.\n\n" +
+        "الهدف ليس أن تعمل طوال اليوم، بل أن تعرف أين يذهب وقتك."
+    );
+
+    addXP(20);
+}
+
+
+function energyChallenge() {
+
+    alert(
+        "⚡ تحدي الطاقة:\n\n" +
+        "فكر للحظة: متى يكون تركيزك في أفضل حالاته؟\n\n" +
+        "🌅 الصباح\n" +
+        "☀️ الظهر\n" +
+        "🌙 المساء\n\n" +
+        "ضع المهام الصعبة في وقت طاقتك الأعلى."
+    );
+
+    addXP(15);
+}
+
+
+function completeSkill() {
+
+    addXP(50);
+
+    addStreak();
+
+    document.getElementById("timerMessage").textContent =
+        "🏆 تم تسجيل إنجازك! استمر في بناء عاداتك.";
+
+    alert(
+        "🏆 تم تسجيل الإنجاز!\n\n" +
+        "+50 XP\n" +
+        "🔥 استمر في بناء سلسلة إنجازاتك."
+    );
+}
+
+
+
+updateFocusTimer();
+
+</script>
+    </section>
+
+    <section id="page-progress" class="page">
+        <h2 style="margin-bottom: 25px; font-weight: 800;">لوحة متابعة الإنجاز والتقدم</h2>
+        <div class="dashboard-container">
+            <div class="stat-card">
+                <h3>نسبة إنجازك اليومي</h3>
+                <div class="circle-progress">
+                    <div class="circle-inner" id="progressVal">75%</div>
+                </div>
+                <p style="color: var(--success-green); font-weight: 600;">تحفز للانطلاقة نعلم انك ستسطيع</p>
+            </div>
+
+            <div class="task-list">
+                <h3 style="margin-bottom: 15px;">قائمة المهام اليومية التطبيقية</h3>
+                <div class="task-item">
+                    <input type="checkbox" checked onclick="updateTask()">
+                    <label>تحديد أهم 3 مهام يومية صباحاً</label>
+                </div>
+                <div class="task-item">
+                    <input type="checkbox" checked onclick="updateTask()">
+                    <label>تطبيق جلسة تركيز لمدة 20-25 دقيقة</label>
+                </div>
+                <div class="task-item">
+                    <input type="checkbox" checked onclick="updateTask()">
+                    <label>تجنب المشتتات أثناء تنفيذ المهام الأساسية</label>
+                </div>
+                <div class="task-item">
+                    <input type="checkbox" id="t4" onclick="updateTask()">
+                    <label>مراجعة تقرير الإنجاز اليومي قبل النوم</label>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="page-feedback" class="page">
+        <div class="feedback-container">
+            <div class="feedback-form">
+                <h2 style="color: var(--primary-blue); margin-bottom: 8px;">إضافة تعليق وتغذية راجعة 📝</h2>
+                <p style="color: #6C757D; font-size: 0.9rem; margin-bottom: 20px;">سيتم ربط اسمك تلقائياً مع تعليقك ونشره في نتائج المنصة الحية</p>
+                
+                <form onsubmit="submitFeedback(event)">
+                    <div class="form-group">
+                        <label>الاسم الظاهر في التقييم</label>
+                        <input type="text" id="fb-author-display" readonly style="background-color: #F1F5F9; font-weight: bold; color: var(--primary-blue);">
+                    </div>
+                    <div class="form-group">
+                        <label>أكثر عنصر أثر بك في المنصة؟</label>
+                        <select id="fb-feature" required>
+                            <option value="عرض الفيديوهات التفاعلية">عرض الفيديوهات التفاعلية</option>
+                            <option value="المخطط البطاقي للتمارين">المخطط البطاقي للتمارين</option>
+                            <option value="شريط تتبع الإنجاز والتقدم المئوي">شريط تتبع الإنجاز والتقدم المئوي</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>تقييمك لتجربة المنصة (<span id="rangeVal">9</span> / 10)</label>
+                        <input type="range" id="fb-score" min="1" max="10" value="9" oninput="document.getElementById('rangeVal').innerText = this.value">
+                    </div>
+                    <div class="form-group">
+                        <label>تعليقك والتغذية الراجعة</label>
+                        <textarea id="fb-comment" rows="3" style="width:100%; padding: 12px; border-radius: 12px; border: 2px solid #E2E8F0;" placeholder="اكتب تعليقك المباشر هنا..." required></textarea>
+                    </div>
+                    <button type="submit" class="btn-primary">نشر التعليق والنتيجة 🚀</button>
+                </form>
+            </div>
+
+            <div class="live-results-card">
+                <div class="results-header">
+                    <h3>آراء وتعليقات المشاركين 💬</h3>
+                    <span class="score-badge" id="avgRating">9.2 / 10</span>
+                </div>
+                <p style="font-size: 0.85rem; color: #6C757D; margin-bottom: 15px;">استقبال واستعراض التعليقات المباشرة مع أسماء أصحابها:</p>
+                
+                <div class="feedback-feed" id="feedbackFeed">
+                    <div class="feed-item">
+                        <div class="feed-item-header">
+                            <span class="feed-item-author">سارة (19-20 سنة)</span>
+                            <span style="color: var(--energy-orange); font-weight:bold;">★ 10/10</span>
+                        </div>
+                        <p style="font-size: 0.9rem; color: var(--dark-charcoal);">عرض الفيديوهات التفاعلية وشريط التقدم المئوي أعطاني دافعية ممتازة للبدء دون تسويف!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div id="modal-1" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('modal-1')">&times;</span>
+            <h3 style="color: var(--primary-blue); margin-bottom: 10px;">تمرين تقنية البومودورو</h3>
+            <p style="line-height: 1.6; color: #495057;">اضبط الموقت الآن على 20-25 دقيقة، اغلق جميع التنبيهات، وابدأ في إنهاء مهمتك الأولى فوراً دون أي مقاطعة.</p>
+        </div>
+    </div>
+
+    <div id="modal-2" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('modal-2')">&times;</span>
+            <h3 style="color: var(--energy-orange); margin-bottom: 10px;">تمرين ترتيب الأولويات</h3>
+            <p style="line-height: 1.6; color: #495057;">اكتب الأهداف التي تتمنى إنجازها اليوم، ثم رتبها من 1 إلى 3 بحيث تبدأ دائماً بالأهم والأكثر تأثيراً.</p>
+        </div>
+    </div>
+
+    <script>
+        let isLoggedIn = false;
+        let currentUser = "";
+        let currentAge = "";
+        let ratings = [10, 9, 9]; 
+
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+        function playClickSound() {
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(600, audioCtx.currentTime);
+            osc.frequency.exponentialRampToValueAtTime(300, audioCtx.currentTime + 0.08);
+            gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.08);
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            osc.start();
+            osc.stop(audioCtx.currentTime + 0.08);
+        }
+
+        function playSuccessSound() {
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+            const now = audioCtx.currentTime;
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.type = 'triangle';
+            osc.frequency.setValueAtTime(523.25, now);
+            osc.frequency.setValueAtTime(659.25, now + 0.1);
+            osc.frequency.setValueAtTime(783.99, now + 0.2);
+            gain.gain.setValueAtTime(0.2, now);
+            gain.gain.exponentialRampToValueAtTime(0.01, now + 0.4);
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            osc.start(now);
+            osc.stop(now + 0.4);
+        }
+
+        function handleLogin(event) {
+            event.preventDefault();
+            playSuccessSound();
+            currentUser = document.getElementById('username').value;
+            currentAge = document.getElementById('userage').value;
+
+            if(currentUser.trim() !== '') {
+                isLoggedIn = true;
+                
+                document.querySelectorAll('.nav-links button').forEach(btn => btn.classList.remove('locked'));
+                
+                document.getElementById('welcomeHeader').innerText = 'مرحباً بك يا ' + currentUser + '، طور مهاراتك واصنع مستقبلك!';
+                document.getElementById('fb-author-display').value = currentUser + ' (' + (currentAge || 'مشارك') + ')';
+                
+                switchPage('page-home', 50, { target: document.getElementById('btn-home') });
+            }
+        }
+
+        function switchPage(pageId, progressPct, evt) {
+            if (!isLoggedIn && pageId !== 'page-auth') {
+                alert('عذراً! يجب عليك تسجيل الدخول أولاً للوصول إلى باقي صفحات المنصة.');
+                return;
+            }
+
+            playClickSound();
+
+            document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
+            document.getElementById(pageId).classList.add('active');
+            
+            document.getElementById('topProgress').style.width = progressPct + '%';
+
+            if (evt && evt.target) {
+                document.querySelectorAll('.nav-links button').forEach(btn => btn.classList.remove('active'));
+                evt.target.classList.add('active');
+            }
+        }
+
+        function submitFeedback(event) {
+            event.preventDefault();
+            playSuccessSound();
+            
+            const feature = document.getElementById('fb-feature').value;
+            const score = parseInt(document.getElementById('fb-score').value);
+            const comment = document.getElementById('fb-comment').value;
+
+            ratings.push(score);
+            const avg = (ratings.reduce((a, b) => a + b, 0) / ratings.length).toFixed(1);
+            document.getElementById('avgRating').innerText = avg + ' / 10';
+
+			const feedContainer = document.getElementById('feedbackFeed');
+            const newFeedItem = document.createElement('div');
+            newFeedItem.className = 'feed-item';
+            newFeedItem.style.borderRightColor = 'var(--success-green)';
+            newFeedItem.innerHTML = `
+                <div class="feed-item-header">
+                    <span class="feed-item-author">👤 ${currentUser} (${currentAge || 'مشارك'})</span>
+                    <span style="color: var(--success-green); font-weight:bold;">★ ${score}/10</span>
+                </div>
+                <p style="font-size: 0.9rem; color: var(--dark-charcoal); font-weight: 600; margin-top: 4px;">"${comment}"</p>
+                <small style="color: var(--primary-blue); font-size:0.75rem; display:block; margin-top:6px;">العنصر الأفضل: ${feature}</small>
+            `;
+
+            feedContainer.insertBefore(newFeedItem, feedContainer.firstChild);
+
+            document.getElementById('fb-comment').value = '';
+            alert('تم نشر تعليقك يا ' + currentUser + ' بنجاح في جدار نتائج التغذية الراجعة!');
+        }
+
+        function openModal(modalId) {
+            playClickSound();
+            document.getElementById(modalId).style.display = 'flex';
+        }
+
+        function closeModal(modalId) {
+            playClickSound();
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        function updateTask() {
+            playClickSound();
+            const checkboxes = document.querySelectorAll('.task-item input[type="checkbox"]');
+            let checkedCount = 0;
+            checkboxes.forEach(cb => { if(cb.checked) checkedCount++; });
+            
+            const pct = Math.round((checkedCount / checkboxes.length) * 100);
+            document.getElementById('progressVal').innerText = pct + '%';
+        }
+    </script>
+</body>
+</html>
